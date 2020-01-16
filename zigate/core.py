@@ -2179,7 +2179,19 @@ class ZiGate(object):
             args.append(param)
         data = struct.pack(fmt, *args)
         return self.send_data(0x00fa, data)
-
+    @register_actions(ACTIONS_IAS)
+    def action_ias_enroll(self, addr, endpoint, mode = 0x00, zoneId=0):
+        '''
+        Action_ias_enroll
+        '''
+        addr_mode = 2
+        addr = self.__addr(addr)
+        #group = self.__addr(group)
+        src_endpoint = 1
+        #mode = 0x0000
+        data = struct.pack('!BHBBBB', addr_mode, addr,
+                           src_endpoint, endpoint, mode, zoneId)
+    return self.send_data(0x0400, data)
     @register_actions(ACTIONS_IAS)
     def action_ias_warning(self, addr, endpoint,
                            mode='burglar', strobe=True, level='low',
